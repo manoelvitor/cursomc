@@ -12,31 +12,36 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
-public class Produto implements Serializable{
+public class Produto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String nome;
-	
+
 	private Double preco;
-	
-	//Apontar quem sera a chave estrangeira na tabela que fara a ligação das tabelas Produto e Categoria
-	//Para apontar anote a classe inversa  com @ManyToMany(mappedBy = "categorias")
+
+	// Apontar quem sera a chave estrangeira na tabela que fara a ligação das
+	// tabelas Produto e Categoria
+	// Para apontar anote a classe inversa com @ManyToMany(mappedBy = "categorias")
+
+	@JsonBackReference // para nao buscar puxar o objt referencia
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA",
-			joinColumns = @JoinColumn(name = "produto_id"),
-			inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-	private List<Categoria> categorias = new ArrayList<Categoria>();
+		joinColumns = @JoinColumn(name = "produto_id"),
+		inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+	private List<Categoria> categorias = new ArrayList<>();
 
 	public Produto(Integer id, String nome, Double preco) {
 		this.id = id;
 		this.nome = nome;
-		this.preco = preco;		
+		this.preco = preco;
 	}
 
 	public Integer getId() {
@@ -55,6 +60,8 @@ public class Produto implements Serializable{
 		this.nome = nome;
 	}
 
+
+
 	public Double getPreco() {
 		return preco;
 	}
@@ -69,6 +76,13 @@ public class Produto implements Serializable{
 
 	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
+	}
+	
+	
+
+	public Produto() {
+
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -96,12 +110,4 @@ public class Produto implements Serializable{
 		return true;
 	}
 
-	
-	
 }
-	
-	
-	
-	
-	
-

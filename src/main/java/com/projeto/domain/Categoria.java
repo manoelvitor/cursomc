@@ -11,6 +11,8 @@ import javax.persistence.Id;
 
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Categoria implements Serializable{
 	
@@ -24,9 +26,10 @@ public class Categoria implements Serializable{
 	
 	//Apontar quem sera a chave estrangeira na tabela que fara a ligação das tabelas Produto e Categoria
 	//atributo mapeado muitos para muitos  muitos produtos para muitas categorias;
+	//@JsonManagedReference irá buscar a referencia da lista de produtos da categorias
+	@JsonManagedReference 
 	@ManyToMany(mappedBy = "categorias")
-
-	private List<Produto> produtos = new ArrayList<Produto>();
+	private List<Produto> produtos = new ArrayList<>();
 
 	public Integer getId() {
 		return id;
@@ -77,7 +80,6 @@ public class Categoria implements Serializable{
 		return true;
 	}
 
-	@ManyToMany(mappedBy = "categorias") // dizer que já está mapeado no atributo categorias da classe Produto
 	public List<Produto> getProdutos() {
 		return produtos;
 	}
